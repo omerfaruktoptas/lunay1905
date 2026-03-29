@@ -8,12 +8,13 @@ import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft } from "lucide-react";
 import LunarLander from "./LunarLander";
 import ComparisonGame from "./ComparisonGame";
+import HistoricalMaps from "./HistoricalMaps";
 
 const SECTIONS = [
   {
     id: 1,
-    title: "Geçmişten Günümüze Ay",
-    description: "İnsanlığın ilk gözlemlerinden teleskopik keşiflere uzanan yolculuk.",
+    title: "Geçmişten Günümüze Haritalar",
+    description: "Ay'ın detaylı haritalanma serüveni ve tarihi astronomlar.",
     image: "https://picsum.photos/seed/moon-past/800/1200",
   },
   {
@@ -55,7 +56,7 @@ const SECTIONS = [
 ];
 
 export default function App() {
-  const [view, setView] = useState<"landing" | "adventure" | "game" | "comparison">("landing");
+  const [view, setView] = useState<"landing" | "adventure" | "game" | "comparison" | "maps">("landing");
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-black text-white font-sans">
@@ -173,6 +174,7 @@ export default function App() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 + 0.5 }}
                   onClick={() => {
+                    if (section.id === 1) setView("maps");
                     if (section.id === 6) setView("comparison");
                     if (section.id === 7) setView("game");
                   }}
@@ -225,6 +227,17 @@ export default function App() {
             className="h-full w-full"
           >
             <ComparisonGame onExit={() => setView("adventure")} />
+          </motion.div>
+        ) : view === "maps" ? (
+          <motion.div
+            key="maps"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="h-full w-full"
+          >
+            <HistoricalMaps onExit={() => setView("adventure")} />
           </motion.div>
         ) : (
           <motion.div
